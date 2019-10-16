@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <music-browser :tracklist="tracklist"/>
+	<transport-controller :tracklist="tracklist" ref="transport" :playlist="playlist" @remove-from-playlist="removeFromPlaylist"></transport-controller>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import musicBrowser from './components/browser/music.browser.vue';
+import TransportController from "./components/transport/transport.controller.vue";
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
+	name: 'app',
+	data: function() {
+		return {
+			tracklist: [],
+			playlist: [244]
+		}
+	},
+	components: {
+		musicBrowser, TransportController
+	},
+	methods: {
+		handleHotKeys: function(event) {
+			if (event.which == 32) {
+				this.$refs.transport.togglePlayback();
+			}
+		},
+		removeFromPlaylist: function(idx) {
+			if (this.currentIndex == idx) {
+				this.currentIndex = 0;
+			}
+			this.playlist.splice(idx, 1);
+		}
+	},
+	mounted: function() {
+		var thisObj = this;
+		window.addEventListener("keydown", this.handleHotKeys);
+		fetch("tracklist.json").then(function(resp){
+			return resp.json();
+		}).then(function(json) {
+			thisObj.tracklist = json;
+		});
+	}
 }
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+	body, html {
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+	}
+	#app {
+		height: 100vh;
+	}
 </style>
