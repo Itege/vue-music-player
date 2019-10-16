@@ -20,5 +20,5 @@ yarn-error.log*
 *.sln
 *.sw*
 
-tracklist.json
+public/tracklist.json
 public/images
