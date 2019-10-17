@@ -22,3 +22,4 @@ yarn-error.log*
 
 public/tracklist.json
 public/images
+public/audio
