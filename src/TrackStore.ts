@@ -99,7 +99,7 @@ interface TrackStore {
 const trackStore: TrackStore = {
 	tracklist: computed(() => state.tracklist),
 	playlist:  computed(() => {
-		if (TransportState.shuffle) {
+		if (TransportState.shuffle.value) {
 			return [...state.playlist].sort(() => Math.random() - 0.5);
 		}
 		return state.playlist;
