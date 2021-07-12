@@ -30,7 +30,7 @@
 			<div class="absolute inset-1 px-12 py-4">
 				<div
 					v-show="tab === 'artists'"
-					class="grid 2xl:grid-cols-7 md:grid-cols-5 grid-cols-2 gap-4 pb-20"
+					class="grid grid-cols-2 md:grid-cols-5 3xl:grid-cols-7 gap-4 pb-20"
 				>
 					<artist
 						v-for="artist in artists"
@@ -41,7 +41,7 @@
 				</div>
 				<div
 					v-show="tab === 'albums'"
-					class="grid 2xl:grid-cols-7 md:grid-cols-5 grid-cols-2 gap-4 pb-20"
+					class="grid 3xl:grid-cols-7 md:grid-cols-5 grid-cols-2 gap-4 pb-20"
 				>
 					<card
 						v-for="album in filteredAlbums"
