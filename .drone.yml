@@ -11,18 +11,20 @@ steps:
     commands:
       - npm ci | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
       - npm run build | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
-  - name: deploy
+  - name: remove old files
     commands:
       - rm -r /opt/www/audio/css
       - rm -r /opt/www/audio/fonts
       - rm -r /opt/www/audio/img
       - rm -r /opt/www/audio/js
       - rm /opt/www/audio/index.html
-      - cp -r dist/* /opt/www/audio/
-      - chown -R itege:deployers /opt/www/audio/*
-      - chmod -R 775 /opt/www/audio/*
     when:
       branch:
         - master
       status:
         - success
+  - name: deploy
+    commands:
+      - cp -r dist/* /opt/www/audio/
+      - chown -R itege:deployers /opt/www/audio/*
+      - chmod -R 775 /opt/www/audio/*
