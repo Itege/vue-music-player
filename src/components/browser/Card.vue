@@ -10,7 +10,8 @@
 			<div class="overflow-hidden">{{data.name}}</div>
 			<div 
 				class="absolute top-1/2 transform -translate-y-1/2 right-1 px-2 hover:bg-gray-200 rounded-full hover:bg-opacity-70"
-				@click.stop="showMenu = !showMenu" 
+				@click.stop="showMenu = !showMenu"
+				@dblclick.stop
 			>
 				<i class="fas fa-ellipsis-v" />
 			</div>
