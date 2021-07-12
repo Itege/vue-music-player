@@ -78,6 +78,9 @@ const state: State = reactive({
 			.sort()
 			.reduce(function (result: Record<string, types.Album>, key) {
 				result[key] = albums[key];
+				result[key].songs.sort((a, b) => {
+					return state.tracklist[a].tracknum.localeCompare(state.tracklist[b].tracknum);
+				});
 				return result;
 			}, {});
 	}),
