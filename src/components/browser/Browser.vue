@@ -27,7 +27,7 @@
 			>Songs</a>
 		</div>
 		<div class="relative flex-grow overflow-auto">
-			<div class="absolute inset-1 px-12 py-4">
+			<div class="absolute inset-1 md:px-12 px-4 md:py-4 py-2">
 				<div
 					v-show="tab === 'artists'"
 					class="grid grid-cols-2 md:grid-cols-5 3xl:grid-cols-7 gap-4 pb-20"
