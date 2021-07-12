@@ -48,7 +48,6 @@ export default {
 		this.changeSong(0);
 	},
 	playPause():void {
-		console.log(state.playing);
 		this.callback(!state.playing);
 	},
 	currentTrack: computed((): types.Song => {

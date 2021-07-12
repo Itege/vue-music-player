@@ -36,18 +36,18 @@
 						v-for="artist in artists"
 						:key="artist.name"
 						:artist="artist"
-						@click="selectArtist(artist.name)"
+						@dblclick="selectArtist(artist.name)"
 					/>
 				</div>
 				<div
 					v-show="tab === 'albums'"
 					class="grid md:grid-cols-5 grid-cols-2 gap-4 pb-20"
 				>
-					<album
+					<card
 						v-for="album in filteredAlbums"
 						:key="album.name"
-						:album="album"
-						@click="selectAlbum(album.name)"
+						:data="album"
+						@dblclick="selectAlbum(album.name)"
 					/>
 				</div>
 				<tracks v-show="tab === 'songs'" :tracks="filteredSongs" />
@@ -59,7 +59,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import Artist from "@/components/browser/Artist.vue";
-import Album from "./Album.vue";
+import Card from "@/components/browser/Card.vue";
 import Tracks from "./Tracks.vue";
 import trackStore from "@/TrackStore";
 import * as types from "@/Types";
@@ -68,7 +68,7 @@ export default defineComponent({
 	name: "Browser",
 	components: {
 		Artist,
-		Album,
+		Card,
 		Tracks,
 	},
 	data() {

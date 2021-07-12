@@ -5,7 +5,6 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import TransportState from './TransportState';
 
 window.document.addEventListener("keydown", (e: KeyboardEvent) => {
-	console.log(e.key);
 	if (e.key === " ") {
 		TransportState.playPause();
 	}
