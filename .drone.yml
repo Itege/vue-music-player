@@ -13,7 +13,10 @@ steps:
       - npm run build | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
   - name: deploy
     commands:
-      - rm -r /opt/www/audio/{css,fonts,img,js}
+      - rm -r /opt/www/audio/css
+      - rm -r /opt/www/audio/fonts
+      - rm -r /opt/www/audio/img
+      - rm -r /opt/www/audio/js
       - rm /opt/www/audio/index.html
       - cp -r dist/* /opt/www/audio/
       - chown -R itege:deployers /opt/www/audio/*
