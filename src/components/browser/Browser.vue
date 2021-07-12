@@ -1,7 +1,7 @@
 <template>
 	<div class="flex-grow md:w-11/12 w-full mx-auto flex flex-col">
 		<div
-			class="mx-8 py-1 border-b flex flex-row justify-around text-center"
+			class="md:mx-8 mx-1 py-1 border-b flex flex-row justify-around text-center"
 		>
 			<a
 				class="tab"
@@ -157,6 +157,8 @@ export default defineComponent({
 .tab .filter {
 	@apply text-xs;
 	@apply text-gray-500;
+	@apply md:block;
+	@apply hidden;
 }
 
 .tab.active {
