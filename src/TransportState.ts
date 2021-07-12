@@ -53,7 +53,9 @@ export default {
 	currentTrack: computed((): types.Song => {
 		const tracklist = trackStore.tracklist.value;
 		if (tracklist.length) {
-			return tracklist[trackStore.playlist.value[trackStore.currentTrack.value]];
+			const track: types.Song = tracklist[trackStore.playlist.value[trackStore.currentTrack.value]];
+			window.document.title = track.songname;
+			return track;
 		}
 		return {
 			songname: "",

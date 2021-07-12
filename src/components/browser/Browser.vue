@@ -1,5 +1,5 @@
 <template>
-	<div class="flex-grow w-11/12 mx-auto flex flex-col">
+	<div class="flex-grow md:w-11/12 w-full mx-auto flex flex-col">
 		<div
 			class="mx-8 py-1 border-b flex flex-row justify-around text-center"
 		>
