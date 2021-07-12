@@ -53,7 +53,7 @@
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="text-right flex flex-col justify-center pr-8">
-					<input v-model="volume" class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 flex-none hidden md:block" type="range" min="0" max="100" />
+					<input v-model="volume" class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 flex-none hidden lg:block" type="range" min="0" max="100" />
 				</div>
 				<div class="text-right flex flex-col justify-center pr-8">
 					<playlist />
