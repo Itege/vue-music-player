@@ -51,8 +51,13 @@
 					@ended="nextSong"
 				/>
 			</div>
-			<div class="text-right flex flex-col justify-center pr-8">
-				<playlist />
+			<div class="grid grid-cols-2">
+				<div class="text-right flex flex-col justify-center pr-8">
+					<input v-model="volume" class="rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 flex-none" type="range" min="0" max="100" />
+				</div>
+				<div class="text-right flex flex-col justify-center pr-8">
+					<playlist />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -78,7 +83,16 @@ export default defineComponent({
 			currentTrack: transportState.currentTrack,
 			repeat: transportState.repeat,
 			shuffle: transportState.shuffle,
+			volume: 100,
 		};
+	},
+	watch: {
+		volume() {
+			let player = this.$refs.player;
+			if (player instanceof HTMLAudioElement) {
+				player.volume = this.volume / 100;
+			}
+		},
 	},
 	mounted() {
 		transportState.setPlayAction(this.play);
@@ -124,3 +138,26 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style lang="postcss" scoped>
+		.range-thumbs {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			width: 15px;
+			height: 15px;
+			cursor: ew-resize;
+			box-shadow: -405px 0 0 400px rgb(16, 185, 129);
+			@apply rounded-full;
+			@apply bg-green-800;
+			@apply border;
+			@apply border-green-800;
+		}
+
+		input[type="range"]::-moz-range-thumb {
+			@apply range-thumbs;
+		},
+        input[type="range"]::-webkit-slider-thumb {
+			@apply range-thumbs;
+        }
+</style>
