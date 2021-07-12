@@ -3,8 +3,8 @@ import transportState from "./TransportState";
 
 export default ():void => {
 	// eslint-disable-next-line
-// @ts-ignore
-	const mediaSession = 'mediaSession' in Navigator ? Navigator.mediaSession : null;
+	// @ts-ignore
+	const mediaSession = 'mediaSession' in navigator ? navigator.mediaSession : null;
 	if (mediaSession !== null) {
 		mediaSession.setActionHandler('play', () => {
 			transportState.callback(true);
@@ -24,16 +24,17 @@ export default ():void => {
 		watch(transportState.currentTrack, 
 			(t) => {
 				const track = t;
-				window.document.title = track.songname;
+				const artist = track.albumArtist || track.artist;
+				window.document.title = track.songname + "-" + artist;
 				if (mediaSession !== null) {
 					// eslint-disable-next-line
-			// @ts-ignore
+					// @ts-ignore
 					mediaSession.metadata = new MediaMetadata({
 						title: track.songname,
-						artist: track.albumArtist || track.artist,
+						artist: artist,
 						album: track.album,
 						artwork: [
-							{src: "images/" + track.cover},
+							{src: "images/" + track.cover,  type: 'image/png'},
 						],
 					});
 				}
