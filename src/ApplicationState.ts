@@ -6,14 +6,11 @@ type StorageState = {
 	trackIdx: number
 	repeat: boolean
 	shuffle: boolean
+	volume: number
 };
 
 interface State extends StorageState  {
 	tracklist: types.Song[],
-	playlist: number[],
-	trackIdx: number,
-	repeat: boolean,
-	shuffle: boolean,
 	playing: boolean,
 }
 
@@ -22,6 +19,7 @@ type ApplicationStore = {
 	playlist: ComputedRef<number[]>,
 	trackIdx: ComputedRef<number>,
 	currentTrack: ComputedRef<types.Song>,
+	volume: number,
 	repeat: ComputedRef<boolean>,
 	shuffle: ComputedRef<boolean>,
 	playing: ComputedRef<boolean>,
@@ -39,6 +37,7 @@ type ApplicationStore = {
 	setRepeat(rep: boolean): void;
 	setShuffle(shuffle: boolean): void;
 	setPlaying(playing: boolean): void;
+	setVolume(vol: number): void;
 };
 
 
@@ -47,6 +46,7 @@ const playlist: number[] = stored.playlist || [];
 const trackIdx: number = stored.trackIdx || 0;
 const shuffle: boolean = stored.shuffle !== undefined ? stored.shuffle : false;
 const repeat: boolean = stored.repeat !== undefined ? stored.repeat : true;
+const volume: number = stored.volume !== undefined ? stored.volume : 1;
 
 const tracklist: types.Song[] = reactive([]);
 fetch("tracklist.json")
@@ -125,6 +125,7 @@ const state: State = reactive({
 	trackIdx,
 	repeat,
 	shuffle,
+	volume,
 	playing: false,
 });
 
@@ -144,6 +145,7 @@ const store: ApplicationStore = {
 	trackIdx: computed(() => state.trackIdx),
 	artists: computed(collectArtists),
 	albums: computed(collectAlbums),
+	volume: state.volume,
 	repeat: computed((): boolean => state.repeat),
 	shuffle: computed((): boolean => state.shuffle),
 	playing: computed((): boolean => state.playing),
@@ -212,8 +214,11 @@ const store: ApplicationStore = {
 	setPlaying(playing: boolean): void {
 		state.playing = playing;
 	},
-	callback: (shouldPlay: boolean):void => {
+	callback: (shouldPlay: boolean): void => {
 		throw Error("not configured " + shouldPlay);
+	},
+	setVolume(vol: number): void {
+		state.volume = vol;
 	},
 };
 
@@ -225,5 +230,6 @@ watch(state, (newValues) => {
 		trackIdx: newValues.trackIdx,
 		repeat: newValues.repeat,
 		shuffle: newValues.shuffle,
+		volume: newValues.volume,
 	}));
 });
