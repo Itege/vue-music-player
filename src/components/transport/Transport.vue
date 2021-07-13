@@ -8,6 +8,7 @@
 			<div class="flex flex-row gap-2">
 				<div class="flex-none h-24 w-24 flex flex-col justify-center">
 					<img
+						v-if="currentTrack.cover"
 						:src="`images/${currentTrack.cover}`"
 					/>
 				</div>

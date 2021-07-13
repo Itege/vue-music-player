@@ -9,12 +9,16 @@
 <script lang="ts">
 import Browser from "@/components/browser/Browser.vue";
 import Transport from "@/components/transport/Transport.vue";
+import {startWatcher as startStorageWatcher} from "@/StorageManager";
 
 export default {
 	name: "App",
 	components: {
 		Browser,
 		Transport,
+	},
+	mounted(): void {
+		startStorageWatcher();
 	},
 };
 </script>

@@ -2,6 +2,7 @@ import {computed, nextTick, reactive} from "vue";
 import * as types from "@/Types";
 import trackStore from "./TrackStore";
 import ConfigureMediaSession from "./ConfigureMediaSession";
+import {repeat, shuffle} from "./StorageManager";
 
 type TrackState = {
 	repeat: boolean,
@@ -10,8 +11,8 @@ type TrackState = {
 };
 
 const state: TrackState = reactive({
-	repeat: true,
-	shuffle: false,
+	repeat,
+	shuffle,
 	playing: false,
 });
 
@@ -53,7 +54,8 @@ const transportState = {
 	},
 	currentTrack: computed((): types.Song => {
 		const tracklist = trackStore.tracklist.value;
-		if (tracklist.length) {
+		const playlist = trackStore.playlist.value;
+		if (tracklist.length > 0 && playlist.length > 0) {
 			return tracklist[trackStore.playlist.value[trackStore.currentTrack.value]];
 		}
 		return {

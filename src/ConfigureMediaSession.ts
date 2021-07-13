@@ -23,6 +23,7 @@ export default ():void => {
 	nextTick(() => {
 		watch(transportState.currentTrack, 
 			(t) => {
+				console.log(t);
 				const track = t;
 				const artist = track.albumArtist || track.artist;
 				window.document.title = track.songname + "-" + artist;

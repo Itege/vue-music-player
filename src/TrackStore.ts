@@ -1,6 +1,8 @@
+
 import {reactive, computed, ComputedRef} from 'vue';
 import * as types from "@/Types";
 import TransportState from "@/TransportState";
+import {playlist, currentTrack} from "./StorageManager";
 
 type State = {
 	tracklist: types.Song[],
@@ -21,8 +23,8 @@ fetch("tracklist.json")
 
 const state: State = reactive({
 	tracklist,
-	playlist: reactive([0]),
-	currentTrack: 0,
+	playlist: reactive(playlist),
+	currentTrack,
 	artists: computed((): Record<string, types.Artist> => {
 		const artists: Record<string, types.Artist> = {};
 		for (const i in state.tracklist) {
