@@ -3,7 +3,7 @@
 		<button class="inline-block" @click="showPlaylist = !showPlaylist"><i class="text-xl fas fa-bars" /></button>
 		<div v-if="tracklist.length > 0 && showPlaylist" class="playlist absolute bg-white border lg:bottom-28 bottom-24 h-96 lg:right-8 lg:left-auto right-0 left-0 rounded-md p-4 lg:w-1/3 w-full shadow-md">
 			<div class="h-full w-full overflow-x-hidden overflow-auto rounded-md">
-				<div v-for="song in playlist" :key="song" class="p-2 flex flex-row gap-2" :class="{'bg-gray-100': song === playlist[trackIdx]}">
+				<div v-for="(song, idx) in playlist" :key="song" class="p-2 flex flex-row gap-2 hover:bg-gray-200 cursor-pointer" :class="{'bg-gray-100': idx === trackIdx}" @dblclick="playSong(idx)">
 					<div class="flex-none">
 						<img class="cover" :src="`images/${tracklist[song].cover}`" />
 					</div>
@@ -27,9 +27,12 @@ export default defineComponent({
 		return {
 			tracklist: ApplicationState.tracklist,
 			playlist: ApplicationState.playlist,
-			trackIdx: ApplicationState.currentTrack,
+			trackIdx: ApplicationState.trackIdx,
 			showPlaylist: false,
 		};
+	},
+	methods: {
+		playSong: (idx: number) => ApplicationState.changeSong(idx),
 	},
 });
 </script>
