@@ -1,5 +1,5 @@
 import {nextTick, watch} from "@vue/runtime-core";
-import ApplicationState from "./ApplicationState";
+import ApplicationState from "@/ApplicationState";
 
 export default ():void => {
 	// eslint-disable-next-line
