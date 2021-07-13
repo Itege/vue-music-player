@@ -16,9 +16,9 @@ export default ():void => {
 		mediaSession.setActionHandler('previoustrack',  () => {
 			ApplicationState.prevSong();
 		});
-		mediaSession.setActionHandler('nexttrack', function() {
+		mediaSession.setActionHandler('nexttrack', () => {
 			ApplicationState.nextSong();
-	 });
+		});
 	}
 	nextTick(() => {
 		watch(ApplicationState.currentTrack, 
