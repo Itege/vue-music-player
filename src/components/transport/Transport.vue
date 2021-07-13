@@ -66,8 +66,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import trackStore from "@/TrackStore";
-import transportState from "@/TransportState";
+import ApplicationState from "@/ApplicationState";
 import Playlist from "@/components/transport/Playlist.vue";
 
 export default defineComponent({
@@ -75,15 +74,14 @@ export default defineComponent({
 	components: {Playlist},
 	data() {
 		return {
-			tracklist: trackStore.tracklist,
-			playlist: trackStore.playlist,
-			trackIdx: trackStore.currentTrack,
-			playing: transportState.playing,
+			tracklist: ApplicationState.tracklist,
+			playlist: ApplicationState.playlist,
+			playing: ApplicationState.playing,
 			duration: 0,
 			currentTime: 0,
-			currentTrack: transportState.currentTrack,
-			repeat: transportState.repeat,
-			shuffle: transportState.shuffle,
+			currentTrack: ApplicationState.currentTrack,
+			repeat: ApplicationState.repeat,
+			shuffle: ApplicationState.shuffle,
 			volume: 100,
 		};
 	},
@@ -96,7 +94,7 @@ export default defineComponent({
 		},
 	},
 	mounted() {
-		transportState.setPlayAction(this.play);
+		ApplicationState.setPlayAction(this.play);
 	},
 	methods: {
 		play(shouldPlay: boolean): void {
@@ -107,7 +105,7 @@ export default defineComponent({
 				} else {
 					player.pause();
 				}
-				transportState.setPlaying(shouldPlay);
+				ApplicationState.setPlaying(shouldPlay);
 			}
 		},
 		updateProgress(event: Event) {
@@ -129,13 +127,13 @@ export default defineComponent({
 			}
 		},
 		nextSong() {
-			transportState.nextSong();
+			ApplicationState.nextSong();
 		},
 		prevSong() {
-			transportState.prevSong();
+			ApplicationState.prevSong();
 		},
-		setRepeat: transportState.setRepeat,
-		setShuffle: transportState.setShuffle,
+		setRepeat: ApplicationState.setRepeat,
+		setShuffle: ApplicationState.setShuffle,
 	},
 });
 </script>

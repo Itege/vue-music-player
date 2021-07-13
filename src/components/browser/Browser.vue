@@ -61,7 +61,7 @@ import {defineComponent} from "vue";
 import Artist from "@/components/browser/Artist.vue";
 import Card from "@/components/browser/Card.vue";
 import Tracks from "./Tracks.vue";
-import trackStore from "@/TrackStore";
+import ApplicationState from "@/ApplicationState";
 import * as types from "@/Types";
 
 export default defineComponent({
@@ -73,12 +73,12 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			tracklist: trackStore.tracklist,
+			tracklist: ApplicationState.tracklist,
 			tab: "artists",
 			selectedArtist: "",
 			selectedAlbum: "",
-			artists: trackStore.artists,
-			albums: trackStore.albums,
+			artists: ApplicationState.artists,
+			albums: ApplicationState.albums,
 		};
 	},
 	computed: {
@@ -97,20 +97,20 @@ export default defineComponent({
 				if (!this.selectedArtist) {
 					return this.tracklist;
 				}
-				return this.artists[this.selectedArtist].songs.map((s) => {
+				return this.artists[this.selectedArtist].songs.map((s: number) => {
 					let track = this.tracklist[s];
 					track.idx = s;
 					return track;
 				});
 			}
 			return this.albums[this.selectedAlbum]
-				.songs.map((s) => {
+				.songs.map((s: number) => {
 					let track = this.tracklist[s];
 					track.idx = s;
 					return track;
 				})
 				.filter(
-					(s) =>
+					(s: types.Song) =>
 						!this.selectedArtist ||
 						s.albumArtist === this.selectedArtist ||
 						s.artist === this.selectedArtist

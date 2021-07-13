@@ -19,15 +19,15 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import trackStore from "@/TrackStore.ts";
+import ApplicationState from "@/ApplicationState";
 
 export default defineComponent({
 	name: "Playlist",
 	data() {
 		return {
-			tracklist: trackStore.tracklist,
-			playlist: trackStore.playlist,
-			trackIdx: trackStore.currentTrack,
+			tracklist: ApplicationState.tracklist,
+			playlist: ApplicationState.playlist,
+			trackIdx: ApplicationState.currentTrack,
 			showPlaylist: false,
 		};
 	},

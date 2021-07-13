@@ -23,8 +23,7 @@
 import {defineComponent, PropType} from 'vue';
 import CardMenu from "@/components/browser/CardMenu.vue";
 import * as types from "@/Types";
-import trackStore from '@/TrackStore';
-import TransportState from '@/TransportState';
+import ApplicationState from '@/ApplicationState';
 
 export default defineComponent({
 	name: "Card",
@@ -47,12 +46,12 @@ export default defineComponent({
 	},
 	methods: {
 		play() {
-			trackStore.setPlaylist(this.data.songs);
-			TransportState.changeSong(0);
+			ApplicationState.setPlaylist(this.data.songs);
+			ApplicationState.changeSong(0);
 			this.showMenu = false;
 		},
 		add() {
-			trackStore.addAllToPlaylist(this.data.songs);
+			ApplicationState.addAllToPlaylist(this.data.songs);
 			this.showMenu = false;
 		},
 	},

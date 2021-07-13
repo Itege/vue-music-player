@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import transportState from "@/TransportState";
+import ApplicationState from "@/ApplicationState";
 
 export default defineComponent({
 	name: "Tracks",
@@ -40,7 +40,7 @@ export default defineComponent({
 	methods: {
 		overridePlaylist(idx: number, trackIdx: number) {
 			let i = trackIdx !== undefined ? trackIdx : idx;
-			transportState.playNow(i);
+			ApplicationState.playNow(i);
 		},
 	},
 });

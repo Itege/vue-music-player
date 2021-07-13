@@ -1,5 +1,5 @@
 import {nextTick, watch} from "@vue/runtime-core";
-import transportState from "./TransportState";
+import ApplicationState from "./ApplicationState";
 
 export default ():void => {
 	// eslint-disable-next-line
@@ -7,23 +7,22 @@ export default ():void => {
 	const mediaSession = 'mediaSession' in navigator ? navigator.mediaSession : null;
 	if (mediaSession !== null) {
 		mediaSession.setActionHandler('play', () => {
-			transportState.callback(true);
+			ApplicationState.callback(true);
 		});
 		mediaSession.setActionHandler('pause', () => {
-			transportState.callback(false);
+			ApplicationState.callback(false);
 		});
 		//navigator.mediaSession.setActionHandler('seekto', function() {});
 		mediaSession.setActionHandler('previoustrack',  () => {
-			transportState.prevSong();
+			ApplicationState.prevSong();
 		});
 		mediaSession.setActionHandler('nexttrack', function() {
-			transportState.nextSong();
+			ApplicationState.nextSong();
 	 });
 	}
 	nextTick(() => {
-		watch(transportState.currentTrack, 
+		watch(ApplicationState.currentTrack, 
 			(t) => {
-				console.log(t);
 				const track = t;
 				const artist = track.albumArtist || track.artist;
 				window.document.title = track.songname + "-" + artist;
