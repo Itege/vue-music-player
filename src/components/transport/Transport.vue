@@ -103,6 +103,10 @@ export default defineComponent({
 	},
 	mounted() {
 		ApplicationState.setPlayAction(this.play);
+		let player = this.$refs.player;
+		if (player instanceof HTMLAudioElement) {
+			player.volume = this.volume;
+		}
 	},
 	methods: {
 		play(shouldPlay: boolean): void {
