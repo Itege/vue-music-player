@@ -6,8 +6,17 @@ import ApplicationState from '@/ApplicationState';
 import configureMediaSession from "@/ConfigureMediaSession";
 
 window.document.addEventListener("keydown", (e: KeyboardEvent) => {
-	if (e.key === " ") {
-		ApplicationState.playPause();
+	switch (e.key) {
+		case " ":
+			ApplicationState.playPause();
+			break;
+		case "ArrowRight":
+			ApplicationState.nextSong();
+			break;
+		case "ArrowLeft":
+			ApplicationState.prevSong();
+			break;
+		default:
 	}
 });
 configureMediaSession();
