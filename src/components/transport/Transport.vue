@@ -18,9 +18,9 @@
 					<div class="font-gray-400">{{currentTrack.album}}</div>
 				</div>
 			</div>
-			<div class="flex justify-center font-2xl text-center items-center gap-4">
+			<div class="flex justify-center font-2xl text-center items-center gap-2">
 				<button @click="setRepeat(!repeat)">
-					<i class="fas fa-sync p-4" :class="{'text-black': repeat, 'text-gray-400': !repeat}" />
+					<i class="fas fa-sync p-1 bg-gray-100 rounded-md" :class="{'text-black': repeat, 'text-gray-400': !repeat}" />
 				</button>
 				<button @click="prevSong">
 					<i class="fas fa-step-backward bg-gray-200 p-4 rounded-full" />
@@ -42,7 +42,7 @@
 					/>
 				</button>
 				<button @click="setShuffle(!shuffle)">
-					<i class="fas fa-random p-4" :class="{'text-black': shuffle, 'text-gray-400': !shuffle}" />
+					<i class="fas fa-random p-1 bg-gray-100 rounded-md" :class="{'text-black': shuffle, 'text-gray-400': !shuffle}" />
 				</button>
 				<audio
 					ref="player"
