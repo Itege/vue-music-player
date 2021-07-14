@@ -113,7 +113,7 @@ const collectAlbums = (): Record<string, types.Album> => {
 		.reduce(function (result: Record<string, types.Album>, key) {
 			result[key] = albums[key];
 			result[key].songs = result[key].songs.sort((a, b) => {
-				return state.tracklist[a].tracknum.localeCompare(state.tracklist[b].tracknum);
+				return parseInt(state.tracklist[a].tracknum) - parseInt(state.tracklist[b].tracknum);
 			});
 			return result;
 		}, {});
