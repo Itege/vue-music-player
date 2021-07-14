@@ -174,7 +174,7 @@ export default defineComponent({
 	@apply text-white;
 }
 
-.tab.artists.active {
+.tab.songs.active {
 	@apply bg-gray-700;
 	@apply text-white;
 }
