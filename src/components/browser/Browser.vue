@@ -170,12 +170,14 @@ export default defineComponent({
 	@apply bg-green-500;
 	@apply bg-gradient-to-r;
 	@apply from-green-500;
-	@apply to-gray-700;
+	@apply to-green-800;
 	@apply text-white;
 }
 
 .tab.songs.active {
-	@apply bg-gray-700;
+	@apply bg-gradient-to-r;
+	@apply from-green-800;
+	@apply to-gray-700;
 	@apply text-white;
 }
 
