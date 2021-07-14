@@ -4,7 +4,7 @@
 			class="lg:mx-8 mx-1 py-1 border-b flex flex-row justify-around text-center"
 		>
 			<a
-				class="tab"
+				class="tab artists"
 				:class="{ active: tab === 'artists' }"
 				@click="changeTab('artists')"
 			>
@@ -12,7 +12,7 @@
 				<div class="filter" v-text="selectedArtist" />
 			</a>
 			<a
-				class="tab"
+				class="tab albums"
 				:class="{ active: tab === 'albums' }"
 				@click="changeTab('albums')"
 			><span>Albums</span>
@@ -21,7 +21,7 @@
 					v-text="selectedAlbum + ' '"
 				/></a>
 			<a
-				class="tab"
+				class="tab songs"
 				:class="{ active: tab === 'songs' }"
 				@click="changeTab('songs')"
 			>Songs</a>
@@ -161,8 +161,21 @@ export default defineComponent({
 	@apply hidden;
 }
 
-.tab.active {
+.tab.artists.active {
 	@apply bg-green-500;
+	@apply text-white;
+}
+
+.tab.albums.active {
+	@apply bg-green-500;
+	@apply bg-gradient-to-r;
+	@apply from-green-500
+	@apply to-gray-700;
+	@apply text-white;
+}
+
+.tab.artists.active {
+	@apply bg-gray-700;
 	@apply text-white;
 }
 
