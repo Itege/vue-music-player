@@ -169,7 +169,7 @@ export default defineComponent({
 .tab.albums.active {
 	@apply bg-green-500;
 	@apply bg-gradient-to-r;
-	@apply from-green-500
+	@apply from-green-500;
 	@apply to-gray-700;
 	@apply text-white;
 }
