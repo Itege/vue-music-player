@@ -132,8 +132,12 @@ export default defineComponent({
 		nextSong() {
 			ApplicationState.nextSong();
 		},
-		setRepeat: ApplicationState.setRepeat,
-		setShuffle: ApplicationState.setShuffle,
+		setRepeat(repeat: boolean): void {
+			ApplicationState.setRepeat(repeat);
+		},
+		setShuffle(shuffle: boolean): void {
+			ApplicationState.setShuffle(shuffle)
+		},
 	},
 });
 </script>
