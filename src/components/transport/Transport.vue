@@ -136,7 +136,7 @@ export default defineComponent({
 			ApplicationState.setRepeat(repeat);
 		},
 		setShuffle(shuffle: boolean): void {
-			ApplicationState.setShuffle(shuffle)
+			ApplicationState.setShuffle(shuffle);
 		},
 	},
 });
