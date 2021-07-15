@@ -103,6 +103,7 @@ export default defineComponent({
 		player.addEventListener("timeupdate", () => {
 			this.updateProgress();
 		});
+		ApplicationState.setPlayAction(this.play);
 	},
 	methods: {
 		play(shouldPlay: boolean): void {
