@@ -99,7 +99,7 @@ export default defineComponent({
 	},
 	mounted() {
 		player.volume = this.volume;
-		player.addEventListener("ended", ApplicationState.nextSong);
+		player.addEventListener("ended", this.nextSong);
 		player.addEventListener("timeupdate", () => {
 			this.updateProgress();
 		});
@@ -128,6 +128,9 @@ export default defineComponent({
 		},
 		prevSong() {
 			ApplicationState.prevSong();
+		},
+		nextSong() {
+			ApplicationState.nextSong();
 		},
 		setRepeat: ApplicationState.setRepeat,
 		setShuffle: ApplicationState.setShuffle,
