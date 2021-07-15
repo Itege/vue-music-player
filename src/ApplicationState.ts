@@ -141,7 +141,12 @@ const addToPlaylist = (idx: number): void => {
 
 const store: ApplicationStore = {
 	tracklist: computed(() => state.tracklist),
-	playlist: computed(() => state.playlist),
+	playlist:  computed(() => {	
+		if (state.shuffle) {	
+			return [...state.playlist].sort(() => Math.random() - 0.5);	
+		}	
+		return state.playlist;	
+	}),
 	trackIdx: computed(() => state.trackIdx),
 	artists: computed(collectArtists),
 	albums: computed(collectAlbums),
