@@ -1,56 +1,58 @@
 <template>
-	<div class="flex-grow lg:w-11/12 w-full mx-auto flex flex-col">
-		<div
-			class="lg:mx-8 mx-1 py-1 border-b flex flex-row justify-around text-center"
-		>
-			<a
-				class="tab artists"
-				:class="{ active: tab === 'artists' }"
-				@click="changeTab('artists')"
+	<div class="flex-grow w-full flex flex-col bg-gradient-to-b from-white to-gray-50">
+		<div class="flex-grow lg:w-11/12 w-full mx-auto flex flex-col">
+			<div
+				class="lg:mx-8 mx-1 py-1 border-b flex flex-row justify-around text-center"
 			>
-				<span>Artists</span>
-				<div class="filter" v-text="selectedArtist" />
-			</a>
-			<a
-				class="tab albums"
-				:class="{ active: tab === 'albums' }"
-				@click="changeTab('albums')"
-			><span>Albums</span>
-				<div
-					class="filter"
-					v-text="selectedAlbum + ' '"
-				/></a>
-			<a
-				class="tab songs"
-				:class="{ active: tab === 'songs' }"
-				@click="changeTab('songs')"
-			>Songs</a>
-		</div>
-		<div class="relative flex-grow overflow-auto">
-			<div class="absolute inset-1 lg:px-12 px-4 lg:py-4 py-2">
-				<div
-					v-show="tab === 'artists'"
-					class="grid grid-cols-2 lg:grid-cols-5 3xl:grid-cols-7 gap-4 pb-20"
+				<a
+					class="tab artists"
+					:class="{ active: tab === 'artists' }"
+					@click="changeTab('artists')"
 				>
-					<artist
-						v-for="artist in artists"
-						:key="artist.name"
-						:artist="artist"
-						@dblclick="selectArtist(artist.name)"
-					/>
+					<span>Artists</span>
+					<div class="filter" v-text="selectedArtist" />
+				</a>
+				<a
+					class="tab albums"
+					:class="{ active: tab === 'albums' }"
+					@click="changeTab('albums')"
+				><span>Albums</span>
+					<div
+						class="filter"
+						v-text="selectedAlbum + ' '"
+					/></a>
+				<a
+					class="tab songs"
+					:class="{ active: tab === 'songs' }"
+					@click="changeTab('songs')"
+				>Songs</a>
+			</div>
+			<div class="relative flex-grow overflow-auto">
+				<div class="absolute inset-1 lg:px-12 px-4 lg:py-4 py-2">
+					<div
+						v-show="tab === 'artists'"
+						class="grid grid-cols-2 lg:grid-cols-5 3xl:grid-cols-7 gap-4 pb-20"
+					>
+						<artist
+							v-for="artist in artists"
+							:key="artist.name"
+							:artist="artist"
+							@dblclick="selectArtist(artist.name)"
+						/>
+					</div>
+					<div
+						v-show="tab === 'albums'"
+						class="grid 3xl:grid-cols-7 lg:grid-cols-5 grid-cols-2 gap-4 pb-20"
+					>
+						<card
+							v-for="album in filteredAlbums"
+							:key="album.name"
+							:data="album"
+							@dblclick="selectAlbum(album.name)"
+						/>
+					</div>
+					<tracks v-show="tab === 'songs'" :tracks="filteredSongs" />
 				</div>
-				<div
-					v-show="tab === 'albums'"
-					class="grid 3xl:grid-cols-7 lg:grid-cols-5 grid-cols-2 gap-4 pb-20"
-				>
-					<card
-						v-for="album in filteredAlbums"
-						:key="album.name"
-						:data="album"
-						@dblclick="selectAlbum(album.name)"
-					/>
-				</div>
-				<tracks v-show="tab === 'songs'" :tracks="filteredSongs" />
 			</div>
 		</div>
 	</div>

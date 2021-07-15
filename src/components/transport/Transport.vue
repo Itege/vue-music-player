@@ -1,8 +1,8 @@
 <template>
 	<div class="border-t h-24">
-		<div ref="progress" class="h-1 flex flex-row" @click="setProgress($event)">
-			<div class="h-1 bg-green-500" :style="`flex: ${currentTime}`" />
-			<div class="h-1" :style="`flex: ${duration - currentTime}`" />
+		<div ref="progress" class="h-1 flex flex-row bg-gradient-to-r from-green-500 via-green-800 to-gray-700" @click="setProgress($event)">
+			<div class="h-1 bg-transparent" :style="`flex: ${currentTime};`" />
+			<div class="h-1 bg-white" :style="`flex: ${duration - currentTime};`" />
 		</div>
 		<div class="grid grid-cols-3">
 			<div class="flex flex-row gap-2">
@@ -44,13 +44,6 @@
 				<button @click="setShuffle(!shuffle)">
 					<i class="fas fa-random p-1 bg-gray-100 rounded-md" :class="{'text-black': shuffle, 'text-gray-400': !shuffle}" />
 				</button>
-				<audio
-					ref="player"
-					:src="`audio/${currentTrack.filename}`"
-					hidden
-					@timeupdate="updateProgress($event)"
-					@ended="nextSong"
-				/>
 			</div>
 			<div class="grid grid-cols-2">
 				<div class="text-right flex flex-col justify-center pr-8">
@@ -76,6 +69,8 @@ import {defineComponent} from "vue";
 import ApplicationState from "@/ApplicationState";
 import Playlist from "@/components/transport/Playlist.vue";
 
+let player: HTMLAudioElement = document.createElement("audio");
+
 export default defineComponent({
 	name: "Transport",
 	components: {Playlist},
@@ -84,7 +79,7 @@ export default defineComponent({
 			tracklist: ApplicationState.tracklist,
 			playlist: ApplicationState.playlist,
 			playing: ApplicationState.playing,
-			duration: 0,
+			duration: 1,
 			currentTime: 0,
 			currentTrack: ApplicationState.currentTrack,
 			repeat: ApplicationState.repeat,
@@ -94,52 +89,41 @@ export default defineComponent({
 	},
 	watch: {
 		volume() {
-			let player = this.$refs.player;
-			if (player instanceof HTMLAudioElement) {
-				ApplicationState.setVolume(this.volume);
-				player.volume = this.volume;
-			}
+			ApplicationState.setVolume(this.volume);
+			player.volume = this.volume;
+			this.updateProgress();
+		},
+		currentTrack() {
+			player.src = `audio/${this.currentTrack.filename}`;
 		},
 	},
 	mounted() {
-		ApplicationState.setPlayAction(this.play);
-		let player = this.$refs.player;
-		if (player instanceof HTMLAudioElement) {
-			player.volume = this.volume;
-		}
+		player.volume = this.volume;
+		player.addEventListener("ended", ApplicationState.nextSong);
+		player.addEventListener("timeupdate", () => {
+			this.updateProgress();
+		});
 	},
 	methods: {
 		play(shouldPlay: boolean): void {
-			let player = this.$refs.player;
-			if (player instanceof HTMLAudioElement) {
-				if (shouldPlay) { 
-					player.play();
-				} else {
-					player.pause();
-				}
-				ApplicationState.setPlaying(shouldPlay);
+			if (shouldPlay) { 
+				player.play();
+			} else {
+				player.pause();
 			}
+			ApplicationState.setPlaying(shouldPlay);
 		},
-		updateProgress(event: Event) {
-			if (event.target !== null) {
-				let target = event.target;
-				if (target instanceof HTMLAudioElement) {
-					this.currentTime = target.currentTime;
-					this.duration = target.duration;
-				}
-			}
+		updateProgress(): void {
+			this.currentTime = player.currentTime;
+			this.duration = player.duration;
 		},
 		setProgress (event: MouseEvent) {
-			let player =  this.$refs.player;
-			let progress = this.$refs.progress;
-			if (progress instanceof HTMLElement && player instanceof HTMLAudioElement) {
+			let progress = this.$refs.progress; 
+			if (progress instanceof HTMLElement) {
 				player.currentTime =
 					(event.pageX /progress.offsetWidth) *
 					this.duration;
 			}
-		},
-		nextSong() {
-			ApplicationState.nextSong();
 		},
 		prevSong() {
 			ApplicationState.prevSong();
