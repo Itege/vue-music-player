@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent, watch} from "vue";
 import ApplicationState from "@/ApplicationState";
 import Playlist from "@/components/transport/Playlist.vue";
 
@@ -84,7 +84,7 @@ export default defineComponent({
 			currentTrack: ApplicationState.currentTrack,
 			repeat: ApplicationState.repeat,
 			shuffle: ApplicationState.shuffle,
-			volume: ApplicationState.volume,
+			volume : ApplicationState.volume.value,
 		};
 	},
 	watch: {
@@ -104,6 +104,12 @@ export default defineComponent({
 			this.updateProgress();
 		});
 		ApplicationState.setPlayAction(this.play);
+		watch(ApplicationState.volume, (val) => {
+			this.volume = val;
+			ApplicationState.setVolume(this.volume);
+			player.volume = this.volume;
+			this.updateProgress();
+		});
 	},
 	methods: {
 		play(shouldPlay: boolean): void {
