@@ -26,6 +26,10 @@ export default ():void => {
 				const track = t;
 				const artist = track.albumArtist || track.artist;
 				window.document.title = track.songname + "-" + artist;
+				const icon: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
+				if (icon !== null) {
+					icon.href = "images/" + track.cover;
+				}
 				if (mediaSession !== null) {
 					// eslint-disable-next-line
 					// @ts-ignore
