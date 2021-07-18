@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
+import {defineComponent, nextTick, PropType} from 'vue';
 import CardMenu from "@/components/browser/CardMenu.vue";
 import * as types from "@/Types";
 import ApplicationState from '@/ApplicationState';
@@ -47,8 +47,10 @@ export default defineComponent({
 	methods: {
 		play() {
 			ApplicationState.setPlaylist(this.data.songs);
-			ApplicationState.changeSong(0);
 			this.showMenu = false;
+			nextTick(() => {
+				ApplicationState.changeSong(0);
+			});
 		},
 		add() {
 			ApplicationState.addAllToPlaylist(this.data.songs);

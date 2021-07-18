@@ -142,18 +142,6 @@ const state: State = reactive({
 	volume,
 	playing: false,
 });
-
-watch([() => state.shuffle, () => state.originalPlaylist], () => {
-	const oldIdx = state.trackIdx;
-	const oldTrack = state.shuffledPlaylist[oldIdx];
-	let plClone = [...state.originalPlaylist];
-	plClone = state.shuffle ? shufflePlaylist(plClone) : plClone;
-	state.shuffledPlaylist = plClone;
-	const newIdx = plClone.indexOf(oldTrack);
-	state.trackIdx = newIdx;
-	console.log(oldIdx, newIdx, state.trackIdx);
-});
-
 const setCurrentTrack = (idx: number): void => {
 	state.trackIdx = idx;
 };
@@ -166,12 +154,7 @@ const addToPlaylist = (idx: number): void => {
 
 const store: ApplicationStore = {
 	tracklist: computed(() => state.tracklist),
-	playlist:  computed(() => {	
-		if (state.shuffle) {	
-			state.shuffledPlaylist;
-		}	
-		return state.originalPlaylist;	
-	}),
+	playlist:  computed(() => state.shuffledPlaylist),
 	trackIdx: computed(() => state.trackIdx),
 	artists: computed(collectArtists),
 	albums: computed(collectAlbums),
@@ -184,7 +167,7 @@ const store: ApplicationStore = {
 	},
 	setPlaylist(playlist: number[]): void {
 		clearPlaylist();
-		state.originalPlaylist.push(...playlist);
+		playlist.forEach(s => state.originalPlaylist.push(s));
 	},
 	changeSong(idx: number, play = true): void {
 		setCurrentTrack(idx);
@@ -219,7 +202,7 @@ const store: ApplicationStore = {
 		this.callback(!state.playing);
 	},
 	currentTrack: computed((): types.Song => {
-		if (state.tracklist.length > 0 && state.originalPlaylist.length > 0) {
+		if (state.tracklist.length > 0 && state.shuffledPlaylist.length > 0) {
 			return state.tracklist[state.shuffledPlaylist[state.trackIdx]];
 		}
 		return {
@@ -252,8 +235,6 @@ const store: ApplicationStore = {
 	},
 };
 
-export default store;
-
 
 watch(state, (newValues) => {
 	localStorage.setItem("chunes", JSON.stringify({
@@ -265,3 +246,15 @@ watch(state, (newValues) => {
 		volume: newValues.volume,
 	}));
 });
+
+watch([() => state.shuffle, state.originalPlaylist], () => {
+	const oldTrack = state.shuffledPlaylist[state.trackIdx];
+	let plClone = [...state.originalPlaylist];
+	plClone = state.shuffle ? shufflePlaylist(plClone) : plClone;
+	state.shuffledPlaylist = plClone;
+	const newIdx = plClone.indexOf(oldTrack);
+	state.trackIdx = newIdx > -1 ? newIdx : 0;
+});
+
+
+export default store;
