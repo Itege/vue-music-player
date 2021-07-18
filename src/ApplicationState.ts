@@ -2,7 +2,8 @@ import * as types from "@/Types";
 import {reactive, computed, ComputedRef, nextTick, watch} from "vue";
 
 type StorageState = {
-	playlist: number[]
+	originalPlaylist: number[]
+	shuffledPlaylist: number[]
 	trackIdx: number
 	repeat: boolean
 	shuffle: boolean
@@ -42,7 +43,8 @@ type ApplicationStore = {
 
 
 const stored: StorageState = JSON.parse(localStorage.getItem("chunes") || "{}");
-const playlist: number[] = stored.playlist || [];
+const originalPlaylist: number[] = stored.originalPlaylist || [];
+const shuffledPlaylist: number[] = stored.shuffledPlaylist || [];
 const trackIdx: number = stored.trackIdx || 0;
 const shuffle: boolean = stored.shuffle !== undefined ? stored.shuffle : false;
 const repeat: boolean = stored.repeat !== undefined ? stored.repeat : true;
@@ -119,9 +121,21 @@ const collectAlbums = (): Record<string, types.Album> => {
 		}, {});
 };
 
+
+const shufflePlaylist = (arr: number[]): number[] => {
+	let i = arr.length, k, temp;      // k is to generate random index and temp is to swap the values
+	while (--i > 0){
+	   k = Math.floor(Math.random() * (i+1));
+	   temp = arr[k];
+	   arr[k] = arr[i];
+	   arr[i] = temp;
+	}
+	return arr;
+};
 const state: State = reactive({
 	tracklist,
-	playlist: reactive(playlist),
+	originalPlaylist: reactive(originalPlaylist),
+	shuffledPlaylist: reactive(shuffledPlaylist),
 	trackIdx,
 	repeat,
 	shuffle,
@@ -129,23 +143,34 @@ const state: State = reactive({
 	playing: false,
 });
 
+watch([() => state.shuffle, () => state.originalPlaylist], () => {
+	const oldIdx = state.trackIdx;
+	const oldTrack = state.shuffledPlaylist[oldIdx];
+	let plClone = [...state.originalPlaylist];
+	plClone = state.shuffle ? shufflePlaylist(plClone) : plClone;
+	state.shuffledPlaylist = plClone;
+	const newIdx = plClone.indexOf(oldTrack);
+	state.trackIdx = newIdx;
+	console.log(oldIdx, newIdx, state.trackIdx);
+});
+
 const setCurrentTrack = (idx: number): void => {
 	state.trackIdx = idx;
 };
 const clearPlaylist = (): void => {
-	state.playlist.splice(0);
+	state.originalPlaylist.splice(0);
 };
 const addToPlaylist = (idx: number): void => {
-	state.playlist.push(idx);
+	state.originalPlaylist.push(idx);
 };
 
 const store: ApplicationStore = {
 	tracklist: computed(() => state.tracklist),
 	playlist:  computed(() => {	
 		if (state.shuffle) {	
-			return [...state.playlist].sort(() => Math.random() - 0.5);	
+			state.shuffledPlaylist;
 		}	
-		return state.playlist;	
+		return state.originalPlaylist;	
 	}),
 	trackIdx: computed(() => state.trackIdx),
 	artists: computed(collectArtists),
@@ -155,11 +180,11 @@ const store: ApplicationStore = {
 	shuffle: computed((): boolean => state.shuffle),
 	playing: computed((): boolean => state.playing),
 	addAllToPlaylist(songs: number[]): void {
-		state.playlist.push(...songs);
+		state.originalPlaylist.push(...songs);
 	},
 	setPlaylist(playlist: number[]): void {
 		clearPlaylist();
-		state.playlist.push(...playlist);
+		state.originalPlaylist.push(...playlist);
 	},
 	changeSong(idx: number, play = true): void {
 		setCurrentTrack(idx);
@@ -171,7 +196,7 @@ const store: ApplicationStore = {
 	},
 	nextSong(): void {
 		const track = state.trackIdx + 1;
-		if (track < state.playlist.length) {
+		if (track < state.originalPlaylist.length) {
 			this.changeSong(track);
 		} else {
 			this.changeSong(0, state.repeat);
@@ -182,7 +207,7 @@ const store: ApplicationStore = {
 		if (track >= 0) {
 			this.changeSong(track);
 		} else {
-			this.changeSong(state.playlist.length - 1);
+			this.changeSong(state.originalPlaylist.length - 1);
 		}
 	},
 	playNow(idx: number): void {
@@ -194,8 +219,8 @@ const store: ApplicationStore = {
 		this.callback(!state.playing);
 	},
 	currentTrack: computed((): types.Song => {
-		if (state.tracklist.length > 0 && state.playlist.length > 0) {
-			return state.tracklist[state.playlist[state.trackIdx]];
+		if (state.tracklist.length > 0 && state.originalPlaylist.length > 0) {
+			return state.tracklist[state.shuffledPlaylist[state.trackIdx]];
 		}
 		return {
 			songname: "",
@@ -231,7 +256,9 @@ export default store;
 
 
 watch(state, (newValues) => {
-	localStorage.setItem("chunes", JSON.stringify({playlist: newValues.playlist,
+	localStorage.setItem("chunes", JSON.stringify({
+		originalPlaylist: newValues.originalPlaylist,
+		shuffledPlaylist: newValues.shuffledPlaylist,
 		trackIdx: newValues.trackIdx,
 		repeat: newValues.repeat,
 		shuffle: newValues.shuffle,
