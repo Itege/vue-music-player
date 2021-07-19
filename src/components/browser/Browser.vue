@@ -34,10 +34,10 @@
 						class="grid grid-cols-2 lg:grid-cols-5 3xl:grid-cols-7 gap-4 pb-20"
 					>
 						<artist
-							v-for="artist in artists"
-							:key="artist.name"
+							v-for="(artist, key) in artists"
+							:key="key"
 							:artist="artist"
-							@dblclick="selectArtist(artist.name)"
+							@dblclick="selectArtist(key)"
 						/>
 					</div>
 					<div
@@ -114,8 +114,8 @@ export default defineComponent({
 				.filter(
 					(s: types.Song) =>
 						!this.selectedArtist ||
-						s.albumArtist === this.selectedArtist ||
-						s.artist === this.selectedArtist
+						s.albumArtist.toLowerCase() === this.selectedArtist ||
+						s.artist.toLowerCase() === this.selectedArtist
 				);
 		},
 	},
