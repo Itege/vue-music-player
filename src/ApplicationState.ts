@@ -64,7 +64,7 @@ const collectArtists = (): Record<string, types.Artist> => {
 	for (const i in state.tracklist) {
 		const track = tracklist[i];
 		const artistName = track.albumArtist || track.artist;
-		const artist = artists[artistName];
+		const artist = artists[artistName.toLowerCase()];
 		if (!artist) {
 			const albumSet: Set<string> = new Set();
 			const coverSet: Set<string> = new Set();
@@ -72,7 +72,7 @@ const collectArtists = (): Record<string, types.Artist> => {
 			albumSet.add(track.album);
 			coverSet.add(track.cover);
 			songs.push(parseInt(i));
-			artists[artistName] = {
+			artists[artistName.toLowerCase()] = {
 				name: artistName,
 				albums: albumSet,
 				covers: coverSet,
