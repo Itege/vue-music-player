@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col h-screen select-none overflow-hidden" @keyup.space="playPause">
-		<nav class="p-5 text-gray-700 font-bold text-lg bg-gradient-to-r from-green-500 via-green-800 to-gray-700">Chunes</nav>
+		<nav class="p-5 text-white font-bold text-lg bg-gradient-to-r from-green-500 via-green-800 to-gray-700">Chunes</nav>
 		<browser />
 		<transport />
 	</div>
