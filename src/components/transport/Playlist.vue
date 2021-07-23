@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import ApplicationState from "@/ApplicationState";
+import ApplicationState, {TransportController} from "@/ApplicationState";
 
 export default defineComponent({
 	name: "Playlist",
@@ -27,12 +27,12 @@ export default defineComponent({
 		return {
 			tracklist: ApplicationState.tracklist,
 			playlist: ApplicationState.playlist,
-			trackIdx: ApplicationState.trackIdx,
+			trackIdx: TransportController.trackIdx,
 			showPlaylist: false,
 		};
 	},
 	methods: {
-		playSong: (idx: number) => ApplicationState.changeSong(idx),
+		playSong: (idx: number) => TransportController.changeSong(idx),
 	},
 });
 </script>

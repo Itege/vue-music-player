@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import {defineComponent, watch} from "vue";
-import ApplicationState from "@/ApplicationState";
+import ApplicationState, {TransportController} from "@/ApplicationState";
 import Playlist from "@/components/transport/Playlist.vue";
 
 let player: HTMLAudioElement = document.createElement("audio");
@@ -78,18 +78,18 @@ export default defineComponent({
 		return {
 			tracklist: ApplicationState.tracklist,
 			playlist: ApplicationState.playlist,
-			playing: ApplicationState.playing,
+			playing: TransportController.playing,
 			duration: 1,
 			currentTime: 0,
-			currentTrack: ApplicationState.currentTrack,
-			repeat: ApplicationState.repeat,
-			shuffle: ApplicationState.shuffle,
-			volume : ApplicationState.volume.value,
+			currentTrack: TransportController.currentTrack,
+			repeat: TransportController.repeat,
+			shuffle: TransportController.shuffle,
+			volume : TransportController.volume.value,
 		};
 	},
 	watch: {
 		volume() {
-			ApplicationState.setVolume(this.volume);
+			TransportController.setVolume(this.volume);
 			player.volume = this.volume;
 			this.updateProgress();
 		},
@@ -103,10 +103,10 @@ export default defineComponent({
 		player.addEventListener("timeupdate", () => {
 			this.updateProgress();
 		});
-		ApplicationState.setPlayAction(this.play);
-		watch(ApplicationState.volume, (val) => {
+		TransportController.setPlayAction(this.play);
+		watch(TransportController.volume, (val) => {
 			this.volume = val;
-			ApplicationState.setVolume(this.volume);
+			TransportController.setVolume(this.volume);
 			player.volume = this.volume;
 			this.updateProgress();
 		});
@@ -118,7 +118,7 @@ export default defineComponent({
 			} else {
 				player.pause();
 			}
-			ApplicationState.setPlaying(shouldPlay);
+			TransportController.setPlaying(shouldPlay);
 		},
 		updateProgress(): void {
 			this.currentTime = player.currentTime;
@@ -133,16 +133,16 @@ export default defineComponent({
 			}
 		},
 		prevSong() {
-			ApplicationState.prevSong();
+			TransportController.prevSong();
 		},
 		nextSong() {
-			ApplicationState.nextSong();
+			TransportController.nextSong();
 		},
 		setRepeat(repeat: boolean): void {
-			ApplicationState.setRepeat(repeat);
+			TransportController.setRepeat(repeat);
 		},
 		setShuffle(shuffle: boolean): void {
-			ApplicationState.setShuffle(shuffle);
+			TransportController.setShuffle(shuffle);
 		},
 	},
 });

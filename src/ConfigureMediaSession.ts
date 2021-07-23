@@ -1,5 +1,5 @@
 import {nextTick, watch} from "@vue/runtime-core";
-import ApplicationState from "@/ApplicationState";
+import {TransportController} from "@/ApplicationState";
 
 export default ():void => {
 	// eslint-disable-next-line
@@ -7,21 +7,21 @@ export default ():void => {
 	const mediaSession = 'mediaSession' in navigator ? navigator.mediaSession : null;
 	if (mediaSession !== null) {
 		mediaSession.setActionHandler('play', () => {
-			ApplicationState.callback(true);
+			TransportController.callback(true);
 		});
 		mediaSession.setActionHandler('pause', () => {
-			ApplicationState.callback(false);
+			TransportController.callback(false);
 		});
 		//navigator.mediaSession.setActionHandler('seekto', function() {});
 		mediaSession.setActionHandler('previoustrack',  () => {
-			ApplicationState.prevSong();
+			TransportController.prevSong();
 		});
 		mediaSession.setActionHandler('nexttrack', () => {
-			ApplicationState.nextSong();
+			TransportController.nextSong();
 		});
 	}
 	nextTick(() => {
-		watch(ApplicationState.currentTrack, 
+		watch(TransportController.currentTrack, 
 			(t) => {
 				const track = t;
 				const artist = track.albumArtist || track.artist;

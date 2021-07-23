@@ -41,17 +41,20 @@ export interface State extends StorageState  {
 	playing: boolean,
 }
 
-export type ApplicationStore = {
+export type ApplicationController = {
 	tracklist: ComputedRef<Song[]>,
 	playlist: ComputedRef<number[]>,
+	artists: ComputedRef<Record<string, Artist>>,
+	albums: ComputedRef<Record<string, Album>>,
+};
+
+export type TransportController = {
 	trackIdx: ComputedRef<number>,
 	currentTrack: ComputedRef<Song>,
 	volume: ComputedRef<number>,
 	repeat: ComputedRef<boolean>,
 	shuffle: ComputedRef<boolean>,
 	playing: ComputedRef<boolean>,
-	artists: ComputedRef<Record<string, Artist>>,
-	albums: ComputedRef<Record<string, Album>>,
 	addAllToPlaylist(playlist: number[]): void;
 	setPlaylist(playlist: number[]): void;
 	callback(shouldPlay: boolean): void;

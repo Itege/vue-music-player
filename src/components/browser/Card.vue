@@ -23,7 +23,7 @@
 import {defineComponent, nextTick, PropType} from 'vue';
 import CardMenu from "@/components/browser/CardMenu.vue";
 import * as types from "@/Types";
-import ApplicationState from '@/ApplicationState';
+import {TransportController} from '@/ApplicationState';
 
 export default defineComponent({
 	name: "Card",
@@ -46,14 +46,14 @@ export default defineComponent({
 	},
 	methods: {
 		play() {
-			ApplicationState.setPlaylist(this.data.songs);
+			TransportController.setPlaylist(this.data.songs);
 			this.showMenu = false;
 			nextTick(() => {
-				ApplicationState.changeSong(0);
+				TransportController.changeSong(0);
 			});
 		},
 		add() {
-			ApplicationState.addAllToPlaylist(this.data.songs);
+			TransportController.addAllToPlaylist(this.data.songs);
 			this.showMenu = false;
 		},
 	},
