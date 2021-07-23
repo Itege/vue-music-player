@@ -1,48 +1,8 @@
 import * as types from "@/Types";
-import {reactive, computed, ComputedRef, nextTick, watch} from "vue";
+import {reactive, computed, nextTick} from "vue";
+import {configureStateWatchers} from "./StateWatchers";
 
-type StorageState = {
-	originalPlaylist: number[]
-	shuffledPlaylist: number[]
-	trackIdx: number
-	repeat: boolean
-	shuffle: boolean
-	volume: number
-};
-
-interface State extends StorageState  {
-	tracklist: types.Song[],
-	playing: boolean,
-}
-
-type ApplicationStore = {
-	tracklist: ComputedRef<types.Song[]>,
-	playlist: ComputedRef<number[]>,
-	trackIdx: ComputedRef<number>,
-	currentTrack: ComputedRef<types.Song>,
-	volume: ComputedRef<number>,
-	repeat: ComputedRef<boolean>,
-	shuffle: ComputedRef<boolean>,
-	playing: ComputedRef<boolean>,
-	artists: ComputedRef<Record<string, types.Artist>>,
-	albums: ComputedRef<Record<string, types.Album>>,
-	addAllToPlaylist(playlist: number[]): void;
-	setPlaylist(playlist: number[]): void;
-	callback(shouldPlay: boolean): void;
-	changeSong(idx: number, play?: boolean): void;
-	nextSong(): void;
-	prevSong(): void;
-	playNow(idx: number): void;
-	playPause(): void;
-	setPlayAction(callback: (shouldPlay: boolean) => void): void;
-	setRepeat(rep: boolean): void;
-	setShuffle(shuffle: boolean): void;
-	setPlaying(playing: boolean): void;
-	setVolume(vol: number): void;
-};
-
-
-const stored: StorageState = JSON.parse(localStorage.getItem("chunes") || "{}");
+const stored: types.StorageState = JSON.parse(localStorage.getItem("chunes") || "{}");
 const originalPlaylist: number[] = stored.originalPlaylist || [];
 const shuffledPlaylist: number[] = stored.shuffledPlaylist || [];
 const trackIdx: number = stored.trackIdx || 0;
@@ -91,6 +51,7 @@ const collectArtists = (): Record<string, types.Artist> => {
 			return result;
 		}, {});
 };
+
 const collectAlbums = (): Record<string, types.Album> => {
 	const albums: Record<string, types.Album> = {};
 	for (const i in tracklist) {
@@ -121,18 +82,7 @@ const collectAlbums = (): Record<string, types.Album> => {
 		}, {});
 };
 
-
-const shufflePlaylist = (arr: number[]): number[] => {
-	let i = arr.length, k, temp;      // k is to generate random index and temp is to swap the values
-	while (--i > 0){
-	   k = Math.floor(Math.random() * (i+1));
-	   temp = arr[k];
-	   arr[k] = arr[i];
-	   arr[i] = temp;
-	}
-	return arr;
-};
-const state: State = reactive({
+const state: types.State = reactive({
 	tracklist,
 	originalPlaylist: reactive(originalPlaylist),
 	shuffledPlaylist: reactive(shuffledPlaylist),
@@ -142,17 +92,9 @@ const state: State = reactive({
 	volume,
 	playing: false,
 });
-const setCurrentTrack = (idx: number): void => {
-	state.trackIdx = idx;
-};
-const clearPlaylist = (): void => {
-	state.originalPlaylist.splice(0);
-};
-const addToPlaylist = (idx: number): void => {
-	state.originalPlaylist.push(idx);
-};
 
-const store: ApplicationStore = {
+
+const store: types.ApplicationStore = {
 	tracklist: computed(() => state.tracklist),
 	playlist:  computed(() => state.shuffledPlaylist),
 	trackIdx: computed(() => state.trackIdx),
@@ -166,11 +108,11 @@ const store: ApplicationStore = {
 		state.originalPlaylist.push(...songs);
 	},
 	setPlaylist(playlist: number[]): void {
-		clearPlaylist();
+		state.originalPlaylist.splice(0);
 		playlist.forEach(s => state.originalPlaylist.push(s));
 	},
 	changeSong(idx: number, play = true): void {
-		setCurrentTrack(idx);
+		state.trackIdx = idx;
 		if (play) {
 			nextTick(() => {
 				this.callback(true);
@@ -194,8 +136,8 @@ const store: ApplicationStore = {
 		}
 	},
 	playNow(idx: number): void {
-		clearPlaylist();
-		addToPlaylist(idx);
+		state.originalPlaylist.splice(0);
+		state.originalPlaylist.push(idx);
 		this.changeSong(0);
 	},
 	playPause(): void {
@@ -235,26 +177,5 @@ const store: ApplicationStore = {
 	},
 };
 
-
-watch(state, (newValues) => {
-	localStorage.setItem("chunes", JSON.stringify({
-		originalPlaylist: newValues.originalPlaylist,
-		shuffledPlaylist: newValues.shuffledPlaylist,
-		trackIdx: newValues.trackIdx,
-		repeat: newValues.repeat,
-		shuffle: newValues.shuffle,
-		volume: newValues.volume,
-	}));
-});
-
-watch([() => state.shuffle, state.originalPlaylist], () => {
-	const oldTrack = state.shuffledPlaylist[state.trackIdx];
-	let plClone = [...state.originalPlaylist];
-	plClone = state.shuffle ? shufflePlaylist(plClone) : plClone;
-	state.shuffledPlaylist = plClone;
-	const newIdx = plClone.indexOf(oldTrack);
-	state.trackIdx = newIdx > -1 ? newIdx : 0;
-});
-
-
+configureStateWatchers(state);
 export default store;
