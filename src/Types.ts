@@ -1,4 +1,4 @@
-import {ComputedRef} from "svue";
+import {ComputedRef} from "vue";
 
 export type Song = {
 	album: string
