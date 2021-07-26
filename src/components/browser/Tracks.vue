@@ -11,37 +11,45 @@
 				Album
 			</div>
 		</div>
-		<div v-for="(track, idx) of tracks" :key="idx" class="grid grid-cols-3 gap-1 cursor-pointer hover:bg-gray-100" @dblclick="overridePlaylist(idx, track.idx)">
-			<div class="whitespace-nowrap flex-grow overflow-hidden p-2">
-				{{track.songname}}
-			</div>
-			<div class="whitespace-nowrap flex-grow overflow-hidden p-2">
-				{{track.artist}}
-			</div>
-			<div class="whitespace-nowrap flex-grow overflow-hidden p-2">
-				{{track.album}}
-			</div>
-		</div>
+		<track-row
+			v-for="(track, idx) of tracks"
+			:key="idx"
+			:track="track"
+			:idx="idx"
+			:show-menu="idx === focusedRow"
+			@show-menu="focusRow"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {TransportController} from "@/ApplicationState";
+import TrackRow from "@/components/browser/Track.vue";
 
 export default defineComponent({
 	name: "Tracks",
+	components: {
+		TrackRow,
+	},
 	props: {
 		tracks: {
 			type: Array,
 			required: true,
 		},
 	},
+	data() {
+		return {
+			focusedRow: -1,
+		};
+	},
 	methods: {
-		overridePlaylist(idx: number, trackIdx: number) {
-			let i = trackIdx !== undefined ? trackIdx : idx;
-			TransportController.playNow(i);
+		focusRow(idx: number) {
+			this.focusedRow = idx;
 		},
 	},
 });
 </script>
+
+<style scoped>
+
+</style>
