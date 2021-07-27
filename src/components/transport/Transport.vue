@@ -20,29 +20,29 @@
 			</div>
 			<div class="flex justify-center font-2xl text-center items-center gap-2">
 				<button @click="setRepeat(!repeat)">
-					<i class="fas fa-sync p-1 bg-gray-100 rounded-md" :class="{'text-black': repeat, 'text-gray-400': !repeat}" />
+					<i class="fas fa-sync p-1 bg-gray-100 hover:bg-gray-200 rounded-md" :class="{'text-black': repeat, 'text-gray-400': !repeat}" />
 				</button>
 				<button @click="prevSong">
-					<i class="fas fa-step-backward bg-gray-200 p-4 rounded-full" />
+					<i class="fas fa-step-backward bg-gray-200 hover:bg-gray-300 p-4 rounded-full" />
 				</button>
 				<button>
 					<i
 						v-if="playing"
-						class="fas fa-pause bg-green-500 p-4 rounded-full text-white"
+						class="fas fa-pause bg-green-500 hover:bg-green-600 p-4 rounded-full text-white"
 						@click="play(false)"
 					/><i
 						v-else
-						class="fas fa-play bg-green-500 p-4 rounded-full text-white"
+						class="fas fa-play bg-green-500 hover:bg-green-600 p-4 rounded-full text-white"
 						@click="play(true)"
 					/>
 				</button>
 				<button @click="nextSong">
 					<i
-						class="fas fa-step-forward bg-gray-200 p-4 rounded-full"
+						class="fas fa-step-forward bg-gray-200 hover:bg-gray-300 p-4 rounded-full"
 					/>
 				</button>
 				<button @click="setShuffle(!shuffle)">
-					<i class="fas fa-random p-1 bg-gray-100 rounded-md" :class="{'text-black': shuffle, 'text-gray-400': !shuffle}" />
+					<i class="fas fa-random p-1 bg-gray-100 hover:bg-gray-200 rounded-md" :class="{'text-black': shuffle, 'text-gray-400': !shuffle}" />
 				</button>
 			</div>
 			<div class="grid grid-cols-2">
