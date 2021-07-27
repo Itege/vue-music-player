@@ -18,7 +18,7 @@
 			:idx="idx"
 			:show-menu="idx === focusedRow"
 			@show-menu="focusRow"
-			@click="focuedRow = -1"
+			@click="focusedRow = -1"
 		/>
 	</div>
 </template>
