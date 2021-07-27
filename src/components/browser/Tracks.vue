@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="pb-16">
 		<div class="grid grid-cols-3 gap-1">
 			<div class="font-bold p-2">
 				Name
@@ -18,6 +18,7 @@
 			:idx="idx"
 			:show-menu="idx === focusedRow"
 			@show-menu="focusRow"
+			@click="focuedRow = -1"
 		/>
 	</div>
 </template>
