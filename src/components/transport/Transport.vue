@@ -89,8 +89,9 @@ export default defineComponent({
 	},
 	watch: {
 		volume() {
-			TransportController.setVolume(this.volume);
-			player.volume = this.volume;
+			let vol = parseFloat(this.volume);
+			TransportController.setVolume(vol);
+			player.volume = vol;
 			this.updateProgress();
 		},
 		currentTrack() {
