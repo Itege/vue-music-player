@@ -23,6 +23,7 @@ platform:
 steps:
   - name: deploy
     commands:
+      - pwd
       - rm -rf /opt/www/audio/{css,fonts,img,js}
       - rm -f /opt/www/audio/index.html
       - cp -r dist/* /opt/www/audio/
