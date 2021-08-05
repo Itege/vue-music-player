@@ -1,6 +1,6 @@
 kind: pipeline
 type: exec
-name: Build Music Player
+name: Build & Deploy Music Player
 concurrency:
   limit: 1
 platform:
@@ -11,19 +11,8 @@ steps:
     commands:
       - npm ci | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
       - npm run build | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
----
-kind: pipeline
-type: exec
-name: Deploy Music Player
-concurrency:
-  limit: 1
-platform:
-  os: linux
-  arch: amd64
-steps:
   - name: deploy
     commands:
-      - pwd
       - rm -rf /opt/www/audio/{css,fonts,img,js}
       - rm -f /opt/www/audio/index.html
       - cp -r dist/* /opt/www/audio/
@@ -34,5 +23,3 @@ steps:
         - master
       status:
         - success
-depends_on:
-- Build Music Player
