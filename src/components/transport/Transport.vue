@@ -53,7 +53,7 @@
 						type="range"
 						min="0"
 						max="1"
-						step=".1"
+						step=".01"
 					/>
 				</div>
 				<div class="text-right flex flex-col justify-center pr-8">
