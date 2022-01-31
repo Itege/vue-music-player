@@ -1,7 +1,8 @@
 import {createApp} from 'vue';
 import App from './App.vue';
 import "./assets/index.pcss";
-import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+import "@fortawesome/fontawesome-free/css/solid.min.css";
 import {TransportController} from '@/ApplicationState';
 import configureMediaSession from "@/ConfigureMediaSession";
 
