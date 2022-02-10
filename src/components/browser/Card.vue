@@ -9,7 +9,7 @@
 		<div class="text-md py-2 px-5 text-center whitespace-nowrap gap-1 relative w-full">
 			<div class="overflow-hidden">{{data.name}}</div>
 			<div 
-				class="absolute top-1/2 transform -translate-y-1/2 right-1 px-2 hover:bg-gray-200 rounded-full hover:bg-opacity-70"
+				class="absolute top-1/2 transform -translate-y-1/2 right-1 px-2 bg-white hover:bg-gray-200 rounded-full hover:bg-opacity-70"
 				@click.stop="showMenu = !showMenu"
 				@dblclick.stop
 			>
