@@ -1,6 +1,6 @@
 <template>
 	<div class="grid grid-cols-3 gap-1 cursor-pointer hover:bg-gray-100 track-row" @dblclick="overridePlaylist(idx, track.idx)">
-		<div class="whitespace-nowrap flex-grow p-2">
+		<div class="whitespace-nowrap flex-grow overflow-hidden p-2">
 			<div class="inline-block relative">
 				<button class="px-4" @click.stop="toggleMenu(idx)" @dblclick.stop><i class="fas fa-ellipsis-v" /></button>
 				<div v-if="showMenu" class="absolute left-8 top-0 bg-white z-10 border w-48">
