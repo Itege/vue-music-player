@@ -1,6 +1,7 @@
+---
 kind: pipeline
-type: exec
-name: Build & Deploy Music Player
+type: docker
+name: Build & Deploy GUI
 concurrency:
   limit: 1
 platform:
@@ -8,20 +9,23 @@ platform:
   arch: amd64
 steps:
   - name: build
+    image: node
+    volumes:
+      - name: release
+        path: /release
     commands:
-      - yarn
-      - yarn build
-    environment:
-      NODE_OPTIONS: --openssl-legacy-provider
-  - name: deploy
-    commands:
-      - rm -rf /opt/www/audio/{css,fonts,img,js}
-      - rm -f /opt/www/audio/index.html
-      - cp -r dist/* /opt/www/audio/
-      - chown -R itege:deployers /opt/www/audio/*
-      - chmod -R 775 /opt/www/audio/*
+      - yarn | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
+      - yarn run build | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
+      - rm -rf /release/*
+      - cp -r dist/* /release/
+      - chmod -R 775 /release/*
     when:
       branch:
         - master
       status:
         - success
+
+volumes:
+  - name: release
+    host:
+      path: /opt/www/audio
