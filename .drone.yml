@@ -16,7 +16,7 @@ steps:
     commands:
       - yarn | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
       - yarn run build | sed $'s,\x1b\\[[0-9;]*[a-zA-Z],,g'
-      - rm -rf /release/assets/
+      - rm -rf /release/assets
       - cp -r dist/* /release/
       - chmod -R 775 /release/*
     when:
