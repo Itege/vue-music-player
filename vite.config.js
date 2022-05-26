@@ -6,8 +6,8 @@ export default defineConfig({
 	plugins: [vue()],
 	server: {
 		proxy: {
-			"^/(tracklist|images|audio).*": {
-				target: "https://music.t3gs.ninja",
+			"^/music": {
+				target: "https://play.t3gs.ninja",
 				changeOrigin: true,
 			},
 		}

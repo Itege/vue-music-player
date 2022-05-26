@@ -12,7 +12,7 @@ const repeat: boolean = stored.repeat !== undefined ? stored.repeat : true;
 const volume: number = stored.volume !== undefined ? stored.volume : 1;
 
 const tracklist: types.Song[] = reactive([]);
-fetch("tracklist.json")
+fetch("music/tracklist.json")
 	.then((r) => r.json())
 	.then((j) => {
 		tracklist.push(...j.sort((a: types.Song, b: types.Song) => {
