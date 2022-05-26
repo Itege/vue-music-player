@@ -9,7 +9,7 @@
 				<div class="flex-none h-24 w-24 flex flex-col justify-center">
 					<img
 						v-if="currentTrack.cover"
-						:src="`images/${currentTrack.cover}`"
+						:src="`music/artwork/${currentTrack.cover}`"
 					/>
 				</div>
 				<div class="flex flex-col p-2 whitespace-nowrap overflow-hidden">
@@ -95,7 +95,7 @@ export default defineComponent({
 			this.updateProgress();
 		},
 		currentTrack() {
-			player.src = `audio/${this.currentTrack.filename}`;
+			player.src = `music/songs/${this.currentTrack.filename}`;
 		},
 	},
 	mounted() {

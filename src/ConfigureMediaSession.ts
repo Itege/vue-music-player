@@ -28,7 +28,7 @@ export default ():void => {
 				window.document.title = track.songname + "-" + artist;
 				const icon: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
 				if (icon !== null) {
-					icon.href = "images/" + track.cover;
+					icon.href = "music/artwork/" + track.cover;
 				}
 				if (mediaSession !== null) {
 					// eslint-disable-next-line
@@ -38,7 +38,7 @@ export default ():void => {
 						artist: artist,
 						album: track.album,
 						artwork: [
-							{src: "images/" + track.cover,  type: 'image/png'},
+							{src: "music/artwork/" + track.cover,  type: 'image/png'},
 						],
 					});
 				}

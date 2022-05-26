@@ -3,7 +3,7 @@
 		<div class="p-2 flex-grow flex justify-center items-center">
 			<div class="relative">
 				<card-menu v-if="showMenu" @add="add" @play="play" />
-				<img :src="`images/${img || data.cover}`" class="flex-none" />
+				<img :src="`music/artwork/${img || data.cover}`" class="flex-none" />
 			</div>
 		</div>
 		<div class="text-md py-2 px-5 text-center whitespace-nowrap gap-1 relative w-full">

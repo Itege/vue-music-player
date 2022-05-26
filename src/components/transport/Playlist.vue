@@ -6,7 +6,7 @@
 			<div class="h-full w-full overflow-x-hidden overflow-auto rounded-md flex-grow">
 				<div v-for="(song, idx) in playlist" :key="song" class="p-2 flex flex-row gap-2 hover:bg-gray-200 cursor-pointer" :class="{'bg-gray-100': idx === trackIdx}" @dblclick="playSong(idx)">
 					<div class="flex-none">
-						<img class="cover" :src="`images/${tracklist[song].cover}`" />
+						<img class="cover" :src="`music/artwork/${tracklist[song].cover}`" />
 					</div>
 					<div class="flex flex-col whitespace-nowrap overflow-none text-left">
 						<div class="font-bold">{{tracklist[song].songname}}</div>
